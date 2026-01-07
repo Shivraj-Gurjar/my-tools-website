@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Rajdhani',sans-serif;background:#0a0a0f;color:#e0e0e0;overflow-x:hidden}
+.orbitron{font-family:'Orbitron',sans-serif}
+
+/* Cyberpunk Gradient Background */
+.cyber-bg{background:linear-gradient(135deg,#0a0a0f 0%,#1a0b2e 50%,#0a0a0f 100%);position:relative}
+.cyber-bg::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:linear-gradient(rgba(0,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,255,0.03) 1px, transparent 1px);background-size:50px 50px;pointer-events:none}
+
+/* Neon */
+.neon-cyan{color:#00ffff;text-shadow:0 0 10px #00ffff,0 0 20px #00ffff,0 0 30px #00ffff}
+.neon-pink{color:#ff00ff;text-shadow:0 0 10px #ff00ff,0 0 20px #ff00ff}
+.neon-border{border:2px solid #00ffff;box-shadow:0 0 10px #00ffff,inset 0 0 10px rgba(0,255,255,0.1)}
+.neon-border-pink{border:2px solid #ff00ff;box-shadow:0 0 10px #ff00ff,inset 0 0 10px rgba(255,0,255,0.1)}
+
+/* Tool Cards */
+.tool-card{background:linear-gradient(145deg,#1a1a2e 0%,#16213e 100%);border:1px solid #00ffff;transition:all 0.25s ease;cursor:pointer;position:relative;overflow:hidden}
+.tool-card:hover{transform:translateY(-6px);border-color:#ff00ff;box-shadow:0 12px 30px rgba(255,0,255,0.22)}
+.tool-card.active{border-color:#00ff00;box-shadow:0 0 20px rgba(0,255,0,0.45)}
+
+/* Buttons */
+.cyber-btn{background:linear-gradient(135deg,#00ffff 0%,#0080ff 100%);color:#0a0a0f;font-weight:700;padding:10px 22px;border:none;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s ease;text-transform:uppercase;letter-spacing:1px;border-radius:8px}
+.cyber-btn:hover{box-shadow:0 0 18px #00ffff;transform:scale(1.03)}
+.cyber-btn-secondary{background:linear-gradient(135deg,#ff00ff 0%,#ff0080 100%)}
+
+/* Drop zone */
+.drop-zone{border:3px dashed #00ffff;background:rgba(0,255,255,0.03);transition:all 0.2s ease}
+.drop-zone.drag-over{border-color:#ff00ff;background:rgba(255,0,255,0.06);transform:scale(1.02)}
+
+/* Preview */
+.preview-box{background:#16213e;border:1px solid #00ffff;min-height:200px;display:flex;align-items:center;justify-content:center}
+.preview-box img{max-width:100%;max-height:300px;object-fit:contain}
+
+/* Stat box */
+.stat-box{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-left:4px solid #00ffff;padding:12px}
+
+/* Loading */
+.loading{display:inline-block;width:20px;height:20px;border:3px solid rgba(0,255,255,0.3);border-radius:50%;border-top-color:#00ffff;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Glitch */
+.glitch{position:relative}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
+.glitch::before{left:2px;text-shadow:-2px 0 #ff00ff;clip:rect(24px,550px,90px,0);animation:glitch-anim-2 3s infinite linear alternate-reverse}
+.glitch::after{left:-2px;text-shadow:-2px 0 #00ffff;clip:rect(85px,550px,140px,0);animation:glitch-anim 2.5s infinite linear alternate-reverse}
+@keyframes glitch-anim{0%{clip:rect(61px,9999px,90px,0)}10%{clip:rect(12px,9999px,70px,0)}20%{clip:rect(95px,9999px,43px,0)}30%{clip:rect(37px,9999px,82px,0)}40%{clip:rect(68px,9999px,29px,0)}50%{clip:rect(53px,9999px,17px,0)}60%{clip:rect(84px,9999px,96px,0)}70%{clip:rect(41px,9999px,65px,0)}80%{clip:rect(19px,9999px,52px,0)}90%{clip:rect(76px,9999px,38px,0)}100%{clip:rect(33px,9999px,71px,0)}}
+@keyframes glitch-anim-2{0%{clip:rect(26px,9999px,85px,0)}10%{clip:rect(91px,9999px,34px,0)}20%{clip:rect(47px,9999px,72px,0)}30%{clip:rect(13px,9999px,98px,0)}40%{clip:rect(79px,9999px,21px,0)}50%{clip:rect(55px,9999px,63px,0)}60%{clip:rect(32px,9999px,89px,0)}70%{clip:rect(68px,9999px,45px,0)}80%{clip:rect(24px,9999px,77px,0)}90%{clip:rect(86px,9999px,11px,0)}100%{clip:rect(51px,9999px,66px,0)}}
+
+.hidden{display:none}
+
+/* small responsive tweaks */
+@media (max-width:640px){.container{padding-left:12px;padding-right:12px}}

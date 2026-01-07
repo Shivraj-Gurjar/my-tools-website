@@ -1,728 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberTools - All-in-One Privacy Tools</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background: #0a0a0f;
-            color: #e0e0e0;
-            overflow-x: hidden;
-        }
-        
-        .orbitron {
-            font-family: 'Orbitron', sans-serif;
-        }
-        
-        /* Cyberpunk Gradient Background */
-        .cyber-bg {
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a0b2e 50%, #0a0a0f 100%);
-            position: relative;
-        }
-        
-        .cyber-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-        }
-        
-        /* Neon Glow Effects */
-        .neon-cyan {
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
-        }
-        
-        .neon-pink {
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-        }
-        
-        .neon-border {
-            border: 2px solid #00ffff;
-            box-shadow: 0 0 10px #00ffff, inset 0 0 10px rgba(0, 255, 255, 0.1);
-        }
-        
-        .neon-border-pink {
-            border: 2px solid #ff00ff;
-            box-shadow: 0 0 10px #ff00ff, inset 0 0 10px rgba(255, 0, 255, 0.1);
-        }
-        
-        /* Tool Cards */
-        .tool-card {
-            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
-            border: 1px solid #00ffff;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.5s ease;
-        }
-        
-        .tool-card:hover::before {
-            left: 100%;
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-            border-color: #ff00ff;
-            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.3);
-        }
-        
-        .tool-card.active {
-            border-color: #00ff00;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-        }
-        
-        /* Buttons */
-        .cyber-btn {
-            background: linear-gradient(135deg, #00ffff 0%, #0080ff 100%);
-            color: #0a0a0f;
-            font-weight: 700;
-            padding: 12px 32px;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .cyber-btn:hover {
-            box-shadow: 0 0 20px #00ffff;
-            transform: scale(1.05);
-        }
-        
-        .cyber-btn:active {
-            transform: scale(0.98);
-        }
-        
-        .cyber-btn-secondary {
-            background: linear-gradient(135deg, #ff00ff 0%, #ff0080 100%);
-        }
-        
-        .cyber-btn-secondary:hover {
-            box-shadow: 0 0 20px #ff00ff;
-        }
-        
-        /* Drag & Drop Zone */
-        .drop-zone {
-            border: 3px dashed #00ffff;
-            background: rgba(0, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .drop-zone.drag-over {
-            border-color: #ff00ff;
-            background: rgba(255, 0, 255, 0.1);
-            transform: scale(1.02);
-        }
-        
-        /* Preview Images */
-        .preview-box {
-            background: #16213e;
-            border: 1px solid #00ffff;
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .preview-box img {
-            max-width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-        }
-        
-        /* Stats */
-        .stat-box {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border-left: 4px solid #00ffff;
-            padding: 16px;
-        }
-        
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #0a0a0f;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #00ffff 0%, #ff00ff 100%);
-            border-radius: 5px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #ff00ff 0%, #00ffff 100%);
-        }
-        
-        /* Hidden Class */
-        .hidden {
-            display: none;
-        }
-        
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #00ffff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Glitch Effect for Title */
-        .glitch {
-            position: relative;
-        }
-        
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 #ff00ff;
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
-        }
-        
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 #00ffff;
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 2.5s infinite linear alternate-reverse;
-        }
-        
-        @keyframes glitch-anim {
-            0% { clip: rect(61px, 9999px, 90px, 0); }
-            10% { clip: rect(12px, 9999px, 70px, 0); }
-            20% { clip: rect(95px, 9999px, 43px, 0); }
-            30% { clip: rect(37px, 9999px, 82px, 0); }
-            40% { clip: rect(68px, 9999px, 29px, 0); }
-            50% { clip: rect(53px, 9999px, 17px, 0); }
-            60% { clip: rect(84px, 9999px, 96px, 0); }
-            70% { clip: rect(41px, 9999px, 65px, 0); }
-            80% { clip: rect(19px, 9999px, 52px, 0); }
-            90% { clip: rect(76px, 9999px, 38px, 0); }
-            100% { clip: rect(33px, 9999px, 71px, 0); }
-        }
-        
-        @keyframes glitch-anim-2 {
-            0% { clip: rect(26px, 9999px, 85px, 0); }
-            10% { clip: rect(91px, 9999px, 34px, 0); }
-            20% { clip: rect(47px, 9999px, 72px, 0); }
-            30% { clip: rect(13px, 9999px, 98px, 0); }
-            40% { clip: rect(79px, 9999px, 21px, 0); }
-            50% { clip: rect(55px, 9999px, 63px, 0); }
-            60% { clip: rect(32px, 9999px, 89px, 0); }
-            70% { clip: rect(68px, 9999px, 45px, 0); }
-            80% { clip: rect(24px, 9999px, 77px, 0); }
-            90% { clip: rect(86px, 9999px, 11px, 0); }
-            100% { clip: rect(51px, 9999px, 66px, 0); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberTools - All-in-One Privacy Tools</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/styles.css">
 </head>
 <body class="cyber-bg">
-    <!-- Navigation -->
-    <nav class="border-b border-cyan-500/30 backdrop-blur-sm sticky top-0 z-50" style="background: rgba(10, 10, 15, 0.9);">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl md:text-3xl font-bold orbitron neon-cyan glitch" data-text="CYBERTOOLS">CYBERTOOLS</h1>
-            <button onclick="scrollToTools()" class="cyber-btn text-sm md:text-base">Browse Tools</button>
-        </div>
-    </nav>
+  <!-- Navigation -->
+  <nav class="border-b border-cyan-500/30 backdrop-blur-sm sticky top-0 z-50" style="background: rgba(10, 10, 15, 0.95);">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl md:text-3xl font-bold orbitron neon-cyan glitch" data-text="CYBERTOOLS">CYBERTOOLS</h1>
+      <div class="flex items-center gap-3">
+        <button onclick="scrollToTools()" class="cyber-btn text-sm md:text-base">Browse Tools</button>
+        <a class="text-sm text-gray-300 hover:text-white" href="#" title="Repository">GitHub</a>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Hero Section -->
-    <section class="container mx-auto px-4 py-16 md:py-24 text-center relative">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl md:text-6xl lg:text-7xl font-black orbitron mb-6 leading-tight">
-                <span class="neon-cyan">ALL-IN-ONE</span><br>
-                <span class="neon-pink">PRIVACY TOOLS</span>
-            </h2>
-            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                Process your files locally with zero server uploads. Complete privacy, maximum security. 
-                <span class="neon-cyan">100% Client-Side Processing.</span>
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="scrollToTools()" class="cyber-btn">Start Now</button>
-                <button onclick="alert('All tools run in your browser. No data leaves your device!')" class="cyber-btn cyber-btn-secondary">Learn More</button>
-            </div>
-            
-            <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
-                <div class="stat-box">
-                    <div class="text-3xl font-bold neon-cyan orbitron">10+</div>
-                    <div class="text-sm text-gray-400">Tools</div>
-                </div>
-                <div class="stat-box">
-                    <div class="text-3xl font-bold neon-pink orbitron">100%</div>
-                    <div class="text-sm text-gray-400">Private</div>
-                </div>
-                <div class="stat-box">
-                    <div class="text-3xl font-bold neon-cyan orbitron">0</div>
-                    <div class="text-sm text-gray-400">Uploads</div>
-                </div>
-                <div class="stat-box">
-                    <div class="text-3xl font-bold neon-pink orbitron">FREE</div>
-                    <div class="text-sm text-gray-400">Forever</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="container mx-auto px-4 py-12 md:py-20 text-center relative">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-4xl md:text-6xl lg:text-7xl font-black orbitron mb-4 leading-tight">
+        <span class="neon-cyan">ALL-IN-ONE</span><br>
+        <span class="neon-pink">PRIVACY TOOLS</span>
+      </h2>
+      <p class="text-lg md:text-xl text-gray-300 mb-6 max-w-2xl mx-auto">
+        Process your files locally with zero server uploads. Complete privacy, maximum security.
+        <span class="neon-cyan">100% Client-Side Processing.</span>
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="scrollToTools()" class="cyber-btn">Start Now</button>
+        <button onclick="alert('All tools run in your browser. No data leaves your device!')" class="cyber-btn cyber-btn-secondary">Learn More</button>
+      </div>
+    </div>
+  </section>
 
-    <!-- Tools Grid -->
-    <section id="tools-section" class="container mx-auto px-4 py-16">
-        <h3 class="text-3xl md:text-4xl font-bold orbitron text-center mb-12 neon-cyan">SELECT A TOOL</h3>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
-            <!-- Image Compressor - Active Tool -->
-            <div class="tool-card active rounded-lg p-6" onclick="activateTool('image-compressor')">
-                <div class="text-4xl mb-4">🖼️</div>
-                <h4 class="text-xl font-bold orbitron neon-cyan mb-2">Image Compressor</h4>
-                <p class="text-sm text-gray-400">Reduce image file size while maintaining quality</p>
-                <div class="mt-4 text-xs neon-pink">● ACTIVE</div>
-            </div>
-            
-            <!-- Image Cropper -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! This tool will let you crop images precisely.')">
-                <div class="text-4xl mb-4">✂️</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">Image Cropper</h4>
-                <p class="text-sm text-gray-400">Crop and resize images with precision</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- Image Converter -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Convert between PNG, JPG, WEBP formats.')">
-                <div class="text-4xl mb-4">🔄</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">Image Converter</h4>
-                <p class="text-sm text-gray-400">Convert between image formats instantly</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- PDF Compressor -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Compress PDF files efficiently.')">
-                <div class="text-4xl mb-4">📄</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">PDF Compressor</h4>
-                <p class="text-sm text-gray-400">Reduce PDF file size dramatically</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- PDF Merger -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Merge multiple PDFs into one.')">
-                <div class="text-4xl mb-4">📑</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">PDF Merger</h4>
-                <p class="text-sm text-gray-400">Combine multiple PDFs into one file</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- PDF Splitter -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Split PDFs into separate pages.')">
-                <div class="text-4xl mb-4">📋</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">PDF Splitter</h4>
-                <p class="text-sm text-gray-400">Extract pages from PDF documents</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- Video Compressor -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Compress videos with FFmpeg.js.')">
-                <div class="text-4xl mb-4">🎬</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">Video Compressor</h4>
-                <p class="text-sm text-gray-400">Compress video files efficiently</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- Watermark Remover -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Remove watermarks from images.')">
-                <div class="text-4xl mb-4">💧</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">Watermark Remover</h4>
-                <p class="text-sm text-gray-400">Remove watermarks from images</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- Background Remover -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Remove backgrounds from images using AI.')">
-                <div class="text-4xl mb-4">🎨</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">BG Remover</h4>
-                <p class="text-sm text-gray-400">Remove image backgrounds automatically</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- Image Editor -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Full-featured image editor.')">
-                <div class="text-4xl mb-4">✏️</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">Image Editor</h4>
-                <p class="text-sm text-gray-400">Edit images with filters and effects</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- Text Extractor (OCR) -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Extract text from images using OCR.')">
-                <div class="text-4xl mb-4">📝</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">Text Extractor</h4>
-                <p class="text-sm text-gray-400">Extract text from images (OCR)</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-            
-            <!-- QR Code Generator -->
-            <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon! Generate QR codes instantly.')">
-                <div class="text-4xl mb-4">📱</div>
-                <h4 class="text-xl font-bold orbitron text-white mb-2">QR Generator</h4>
-                <p class="text-sm text-gray-400">Create custom QR codes</p>
-                <div class="mt-4 text-xs text-gray-500">● Coming Soon</div>
-            </div>
-        </div>
-    </section>
+  <!-- Tools Grid -->
+  <section id="tools-section" class="container mx-auto px-4 py-8">
+    <h3 class="text-3xl md:text-4xl font-bold orbitron text-center mb-8 neon-cyan">SELECT A TOOL</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+      <div class="tool-card active rounded-lg p-6" onclick="activateTool('image-compressor')">
+        <div class="text-4xl mb-4">🖼️</div>
+        <h4 class="text-xl font-bold orbitron neon-cyan mb-2">Image Compressor</h4>
+        <p class="text-sm text-gray-400">Reduce image file size while maintaining quality</p>
+        <div class="mt-4 text-xs neon-pink">● ACTIVE</div>
+      </div>
+      <!-- Other tool cards (kept minimal) -->
+      <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon!')"> <div class="text-4xl mb-4">🔄</div><h4 class="text-xl font-bold orbitron text-white mb-2">Image Converter</h4><p class="text-sm text-gray-400">Convert between formats</p></div>
+      <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon!')"> <div class="text-4xl mb-4">📄</div><h4 class="text-xl font-bold orbitron text-white mb-2">PDF Tools</h4><p class="text-sm text-gray-400">Compress, merge, split</p></div>
+      <div class="tool-card rounded-lg p-6" onclick="alert('Coming Soon!')"> <div class="text-4xl mb-4">🎬</div><h4 class="text-xl font-bold orbitron text-white mb-2">Video Compressor</h4><p class="text-sm text-gray-400">Compress videos (client-side)</p></div>
+    </div>
+  </section>
 
-    <!-- Image Compressor Tool -->
-    <section id="image-compressor" class="container mx-auto px-4 pb-16">
-        <div class="max-w-6xl mx-auto neon-border rounded-lg p-6 md:p-10" style="background: rgba(26, 26, 46, 0.6); backdrop-filter: blur(10px);">
-            <h3 class="text-3xl font-bold orbitron neon-cyan mb-2">IMAGE COMPRESSOR</h3>
-            <p class="text-gray-400 mb-8">Compress your images without quality loss. All processing happens in your browser.</p>
-            
-            <!-- Upload Section -->
-            <div id="uploadSection">
-                <div class="drop-zone rounded-lg p-12 text-center mb-6" id="dropZone">
-                    <div class="text-6xl mb-4">📁</div>
-                    <h4 class="text-xl font-bold mb-2 neon-cyan">Drag & Drop Your Image</h4>
-                    <p class="text-gray-400 mb-4">or</p>
-                    <label for="fileInput" class="cyber-btn inline-block cursor-pointer">
-                        Browse Files
-                    </label>
-                    <input type="file" id="fileInput" accept="image/*" class="hidden">
-                    <p class="text-sm text-gray-500 mt-4">Supports: JPG, PNG, WEBP (Max: 50MB)</p>
-                </div>
-                
-                <!-- Compression Settings -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-bold mb-2 neon-cyan">Quality: <span id="qualityValue">80</span>%</label>
-                        <input type="range" id="quality" min="10" max="100" value="80" class="w-full">
-                        <p class="text-xs text-gray-500 mt-1">Higher = Better quality, larger file</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2 neon-pink">Max Width: <span id="maxWidthValue">1920</span>px</label>
-                        <input type="range" id="maxWidth" min="320" max="4096" value="1920" step="160" class="w-full">
-                        <p class="text-xs text-gray-500 mt-1">Leave high for no resizing</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Processing Section -->
-            <div id="processingSection" class="hidden">
-                <div class="text-center py-12">
-                    <div class="loading mx-auto mb-4"></div>
-                    <p class="neon-cyan font-bold">PROCESSING IMAGE...</p>
-                </div>
-            </div>
-            
-            <!-- Results Section -->
-            <div id="resultsSection" class="hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <!-- Original Image -->
-                    <div>
-                        <h5 class="font-bold mb-3 neon-pink">ORIGINAL IMAGE</h5>
-                        <div class="preview-box rounded-lg p-4" id="originalPreview"></div>
-                        <div class="mt-3 text-sm">
-                            <div class="flex justify-between mb-1">
-                                <span class="text-gray-400">Size:</span>
-                                <span class="font-bold" id="originalSize">-</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-400">Dimensions:</span>
-                                <span class="font-bold" id="originalDimensions">-</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Compressed Image -->
-                    <div>
-                        <h5 class="font-bold mb-3 neon-cyan">COMPRESSED IMAGE</h5>
-                        <div class="preview-box rounded-lg p-4" id="compressedPreview"></div>
-                        <div class="mt-3 text-sm">
-                            <div class="flex justify-between mb-1">
-                                <span class="text-gray-400">Size:</span>
-                                <span class="font-bold" id="compressedSize">-</span>
-                            </div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-gray-400">Dimensions:</span>
-                                <span class="font-bold" id="compressedDimensions">-</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-400">Saved:</span>
-                                <span class="font-bold neon-cyan" id="savedPercentage">-</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="downloadCompressedImage()" class="cyber-btn">
-                        ⬇️ Download Compressed Image
-                    </button>
-                    <button onclick="resetTool()" class="cyber-btn cyber-btn-secondary">
-                        🔄 Compress Another
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Image Compressor Tool -->
+  <section id="image-compressor" class="container mx-auto px-4 pb-16">
+    <div class="max-w-6xl mx-auto neon-border rounded-lg p-6 md:p-10" style="background: rgba(26, 26, 46, 0.6); backdrop-filter: blur(10px);">
+      <h3 class="text-3xl font-bold orbitron neon-cyan mb-2">IMAGE COMPRESSOR</h3>
+      <p class="text-gray-400 mb-6">Compress your images without quality loss. All processing happens in your browser.</p>
 
-    <!-- Footer -->
-    <footer class="border-t border-cyan-500/30 py-8 mt-16">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-400 mb-2">
-                <span class="neon-cyan font-bold">CyberTools</span> - All processing happens locally in your browser.
-            </p>
-            <p class="text-sm text-gray-500">
-                No data is uploaded to any server. Your privacy is guaranteed.
-            </p>
-            <p class="text-xs text-gray-600 mt-4">
-                Built with ❤️ using Vanilla JS | Hosted on GitHub Pages
-            </p>
+      <!-- Upload Section -->
+      <div id="uploadSection">
+        <div class="drop-zone rounded-lg p-10 text-center mb-6" id="dropZone">
+          <div class="text-6xl mb-4">📁</div>
+          <h4 class="text-xl font-bold mb-2 neon-cyan">Drag & Drop Your Image</h4>
+          <p class="text-gray-400 mb-4">or</p>
+          <label for="fileInput" class="cyber-btn inline-block cursor-pointer">Browse Files</label>
+          <input type="file" id="fileInput" accept="image/*" class="hidden">
+          <p class="text-sm text-gray-500 mt-4">Supports: JPG, PNG, WEBP (Max: 50MB)</p>
         </div>
-    </footer>
 
-    <script>
-        // Global Variables
-        let originalFile = null;
-        let compressedBlob = null;
-        let compressedFileName = '';
-        
-        // Scroll to Tools
-        function scrollToTools() {
-            document.getElementById('tools-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Activate Tool
-        function activateTool(toolId) {
-            // In future, you can switch between different tools
-            console.log('Tool activated:', toolId);
-        }
-        
-        // Quality Slider
-        const qualitySlider = document.getElementById('quality');
-        const qualityValue = document.getElementById('qualityValue');
-        qualitySlider.addEventListener('input', function() {
-            qualityValue.textContent = this.value;
-        });
-        
-        // Max Width Slider
-        const maxWidthSlider = document.getElementById('maxWidth');
-        const maxWidthValue = document.getElementById('maxWidthValue');
-        maxWidthSlider.addEventListener('input', function() {
-            maxWidthValue.textContent = this.value;
-        });
-        
-        // Drag and Drop
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('drag-over');
-        });
-        
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('drag-over');
-        });
-        
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('drag-over');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFile(files[0]);
-            }
-        });
-        
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
-        });
-        
-        // Handle File Upload
-        function handleFile(file) {
-            // Validate file
-            if (!file.type.startsWith('image/')) {
-                alert('Please upload an image file (JPG, PNG, WEBP)');
-                return;
-            }
-            
-            if (file.size > 50 * 1024 * 1024) {
-                alert('File size must be less than 50MB');
-                return;
-            }
-            
-            originalFile = file;
-            compressImage();
-        }
-        
-        // Compress Image
-        function compressImage() {
-            showSection('processingSection');
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    // Get settings
-                    const quality = parseInt(document.getElementById('quality').value) / 100;
-                    const maxWidth = parseInt(document.getElementById('maxWidth').value);
-                    const maxHeight = maxWidth; // Keep aspect ratio
-                    
-                    // Calculate new dimensions
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > maxWidth || height > maxHeight) {
-                        const ratio = Math.min(maxWidth / width, maxHeight / height);
-                        width = width * ratio;
-                        height = height * ratio;
-                    }
-                    
-                    // Create canvas
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    
-                    const ctx = canvas.getContext('2d');
-                    
-                    // Enable image smoothing for better quality
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = 'high';
-                    
-                    // Draw image
-                    ctx.drawImage(img, 0, 0, width, height);
-                    
-                    // Get file type
-                    const fileType = originalFile.type === 'image/png' ? 'image/png' : 'image/jpeg';
-                    
-                    // Convert to blob
-                    canvas.toBlob(function(blob) {
-                        compressedBlob = blob;
-                        compressedFileName = 'compressed_' + originalFile.name.replace(/.[^/.]+$/, '') + (fileType === 'image/png' ? '.png' : '.jpg');
-                        
-                        // Show results
-                        displayResults(img, width, height);
-                    }, fileType, quality);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(originalFile);
-        }
-        
-        // Display Results
-        function displayResults(originalImg, compressedWidth, compressedHeight) {
-            // Original Preview
-            const originalPreview = document.getElementById('originalPreview');
-            originalPreview.innerHTML = `<img src="${URL.createObjectURL(originalFile)}" alt="Original">`;
-            
-            // Compressed Preview
-            const compressedPreview = document.getElementById('compressedPreview');
-            compressedPreview.innerHTML = `<img src="${URL.createObjectURL(compressedBlob)}" alt="Compressed">`;
-            
-            // Original Stats
-            document.getElementById('originalSize').textContent = formatFileSize(originalFile.size);
-            document.getElementById('originalDimensions').textContent = `${originalImg.width} × ${originalImg.height}`;
-            
-            // Compressed Stats
-            document.getElementById('compressedSize').textContent = formatFileSize(compressedBlob.size);
-            document.getElementById('compressedDimensions').textContent = `${compressedWidth} × ${compressedHeight}`;
-            
-            // Calculate savings
-            const savedBytes = originalFile.size - compressedBlob.size;
-            const savedPercentage = ((savedBytes / originalFile.size) * 100).toFixed(1);
-            document.getElementById('savedPercentage').textContent = `${savedPercentage}% (${formatFileSize(savedBytes)})`;
-            
-            // Show results section
-            showSection('resultsSection');
-        }
-        
-        // Format File Size
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-        
-        // Download Compressed Image
-        function downloadCompressedImage() {
-            if (!compressedBlob) return;
-            
-            const url = URL.createObjectURL(compressedBlob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = compressedFileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-        
-        // Reset Tool
-        function resetTool() {
-            originalFile = null;
-            compressedBlob = null;
-            compressedFileName = '';
-            fileInput.value = '';
-            showSection('uploadSection');
-        }
-        
-        // Show Section
-        function showSection(sectionId) {
-            document.getElementById('uploadSection').classList.add('hidden');
-            document.getElementById('processingSection').classList.add('hidden');
-            document.getElementById('resultsSection').classList.add('hidden');
-            document.getElementById(sectionId).classList.remove('hidden');
-        }
-    </script>
+        <!-- Compression Settings -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 items-end">
+          <div>
+            <label class="block text-sm font-bold mb-2 neon-cyan">Quality: <span id="qualityValue">80</span>%</label>
+            <input type="range" id="quality" min="10" max="100" value="80" class="w-full">
+            <p class="text-xs text-gray-500 mt-1">Higher = Better quality, larger file</p>
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-2 neon-pink">Max Width: <span id="maxWidthValue">1920</span>px</label>
+            <input type="range" id="maxWidth" min="320" max="4096" value="1920" step="160" class="w-full">
+            <p class="text-xs text-gray-500 mt-1">Leave high for no resizing</p>
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-2 text-gray-300">Output Format</label>
+            <select id="formatSelect" class="w-full p-2 rounded-md bg-gray-900 text-gray-200">
+              <option value="auto">Auto (preserve original)</option>
+              <option value="image/jpeg">JPEG</option>
+              <option value="image/png">PNG</option>
+              <option value="image/webp">WEBP</option>
+            </select>
+            <p class="text-xs text-gray-500 mt-1">WEBP may produce smaller files (browser support required)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Processing Section -->
+      <div id="processingSection" class="hidden">
+        <div class="text-center py-12">
+          <div class="loading mx-auto mb-4"></div>
+          <p class="neon-cyan font-bold">PROCESSING IMAGE...</p>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div id="resultsSection" class="hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <h5 class="font-bold mb-3 neon-pink">ORIGINAL IMAGE</h5>
+            <div class="preview-box rounded-lg p-4" id="originalPreview"></div>
+            <div class="mt-3 text-sm">
+              <div class="flex justify-between mb-1"><span class="text-gray-400">Size:</span><span class="font-bold" id="originalSize">-</span></div>
+              <div class="flex justify-between"><span class="text-gray-400">Dimensions:</span><span class="font-bold" id="originalDimensions">-</span></div>
+            </div>
+          </div>
+          <div>
+            <h5 class="font-bold mb-3 neon-cyan">COMPRESSED IMAGE</h5>
+            <div class="preview-box rounded-lg p-4" id="compressedPreview"></div>
+            <div class="mt-3 text-sm">
+              <div class="flex justify-between mb-1"><span class="text-gray-400">Size:</span><span class="font-bold" id="compressedSize">-</span></div>
+              <div class="flex justify-between mb-1"><span class="text-gray-400">Dimensions:</span><span class="font-bold" id="compressedDimensions">-</span></div>
+              <div class="flex justify-between"><span class="text-gray-400">Saved:</span><span class="font-bold neon-cyan" id="savedPercentage">-</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button id="downloadBtn" onclick="downloadCompressedImage()" class="cyber-btn">⬇️ Download Compressed Image</button>
+          <button onclick="resetTool()" class="cyber-btn cyber-btn-secondary">🔄 Compress Another</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-cyan-500/30 py-8 mt-12">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-gray-400 mb-2"><span class="neon-cyan font-bold">CyberTools</span> - All processing happens locally in your browser.</p>
+      <p class="text-sm text-gray-500">No data is uploaded to any server. Your privacy is guaranteed.</p>
+      <p class="text-xs text-gray-600 mt-4">Built with ❤️ using Vanilla JS | Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+
+  <script src="/assets/script.js"></script>
 </body>
-                  </html>
+</html>
